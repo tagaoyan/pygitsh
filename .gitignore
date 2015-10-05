@@ -1,0 +1,6 @@
+# test files
+*.git
+# document
+*.html
+# python
+__pycache__

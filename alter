@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='alter attributes of a repository',
+        )
+
+
+parser.add_argument('-d', '--description', help='set description of the repository', default=None)
+parser.add_argument('-o', '--owner', help='set owner of the repository', default=None)
+parser.add_argument('-R', '--rename', help='rename the repository', default=None)
+acl_group = parser.add_argument_group(title='Access Control', description='If no option specified, access control remains unchanged.')
+acl_group.add_argument('-P', '--private', action='store_true', help='make this repository private', dest='private', default=None)
+acl_group.add_argument('-p', '--public', action='store_false', help='make this repository public', dest='private', default=None)
+parser.add_argument('name', help='repository name')
+args = parser.parse_args()
+
+if not repo_exists(args.name):
+    logger.fatal('repository "%s" do not exist.' % args.name)
+    quit(2)
+
+if args.owner is not None:
+    set_repo_owner(args.name, args.owner)
+
+if args.description is not None:
+    set_repo_description(args.name, args.description)
+
+if args.private is not None:
+    set_repo_private(args.name, args.private)
+
+# rename must go last
+if args.rename is not None:
+    rename_repo(args.name, args.rename)

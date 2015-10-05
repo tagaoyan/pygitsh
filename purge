@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='delete backup',
+        epilog='This command will delete all backups begin with name'
+        )
+
+parser.add_argument('-a', '--all', action='store_true', help='remove all backups begin with NAME')
+parser.add_argument('name', help='name of the backup to be deleted', metavar='NAME')
+args = parser.parse_args()
+
+if args.all:
+    for f in find_backups(args.name):
+        remove_backup(f)
+else:
+    if os.path.exists(args.name + SUF_BACKUP):
+        remove_backup(args.name)
+    else:
+        logger.error('backup %s do not exist' % args.name)
+        exit(2)

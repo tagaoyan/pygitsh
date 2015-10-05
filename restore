@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='restore repository from backup',
+        epilog='If you just want to restore a wrongly removed repository, "-C" option is useful.'
+        )
+
+parser.add_argument('-f', '--force', action='store_true', help='do not backup when conflit occurs')
+parser.add_argument('-C', '--clean', action='store_true', help='remove the backup file afterwards')
+parser.add_argument('name', help='backup name')
+
+args = parser.parse_args()
+
+backfname = args.name + SUF_BACKUP
+reponame = args.name.rsplit('.', 1)[0]
+
+if not os.path.exists(backfname):
+    print('[ERROR] no backup named %s' % args.name)
+    exit(2)
+
+if repo_exists(reponame) and not args.force:
+    backup_repo(reponame)
+
+remove_repo(reponame)
+restore_repo(backfname)
+
+if args.clean:
+    remove_backup(backfname)

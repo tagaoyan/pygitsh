@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='backup a repository'
+        )
+
+parser.add_argument('name', help='repository name')
+
+args = parser.parse_args()
+
+if not repo_exists(args.name):
+    logger.fatal('repository "%s" do not exist' % args.name)
+    quit(2)
+
+backup_repo(args.name)

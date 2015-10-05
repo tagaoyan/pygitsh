@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='show help information',
+        )
+
+parser.add_argument('-l', '--list-all', action='store_true', help='show as a list')
+args = parser.parse_args()
+
+commands = [
+        {
+            'name': 'create',
+            'description': 'create a new repository',
+            },
+        {
+            'name': 'alter',
+            'description': 'alter attributes of a repository',
+            },
+        {
+            'name': 'list',
+            'description': 'list repositorys',
+            },
+        {
+            'name': 'remove',
+            'description': 'remove a repository',
+            },
+        {
+            'name': 'backup',
+            'description': 'backup a repository',
+            },
+        {
+            'name': 'restore',
+            'description': 'restore repository from backup',
+            },
+        {
+            'name': 'purge',
+            'description': 'delete backups',
+            },
+        {
+            'name': 'help',
+            'description': 'show help information',
+            },
+        ]
+
+print('All commands supported:\n')
+
+for item in commands:
+    if args.list_all:
+        print('%(name)-10s%(description)s' % item)
+    else:
+        print("%(name)s " % item, end='')
+
+print('\n\nrun a command with "-h" or "--help" option to learn the usage')

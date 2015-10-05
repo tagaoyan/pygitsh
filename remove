@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import argparse
+from pygitsh import *
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description='remove a repository'
+        )
+
+parser.add_argument('-f', '--force', action='store_true', help='do not backup')
+parser.add_argument('name', help='repository name')
+
+args = parser.parse_args()
+
+if not repo_exists(args.name):
+    print('[ERROR] repository %s do not exist.' % args.name)
+    exit(2)
+
+if not args.force:
+    backup_repo(args.name)
+
+remove_repo(args.name)
