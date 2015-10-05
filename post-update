@@ -5,6 +5,7 @@ workdir="$(mktemp -d -t deploy-XXXXX)"
 
 git --work-tree="$workdir" checkout -f master
 echo "starting deployment..."
+echo "work at $workdir"
 cd "$workdir"
 make deploy
 rc="$?"
