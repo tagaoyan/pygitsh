@@ -116,7 +116,7 @@ def quit(state):
     '''
     exit with `state` after giving the information
     '''
-    logger.info('exit with %#x' % state)
+    logger.info('exit with %#04x' % state)
     exit(state)
 
 # locating repos

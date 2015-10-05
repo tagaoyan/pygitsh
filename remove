@@ -14,8 +14,8 @@ parser.add_argument('name', help='repository name')
 args = parser.parse_args()
 
 if not repo_exists(args.name):
-    print('[ERROR] repository %s do not exist.' % args.name)
-    exit(2)
+    logger.fatal('repository %s do not exist.' % args.name)
+    quit(2)
 
 if not args.force:
     backup_repo(args.name)

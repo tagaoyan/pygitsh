@@ -19,8 +19,8 @@ backfname = args.name + SUF_BACKUP
 reponame = args.name.rsplit('.', 1)[0]
 
 if not os.path.exists(backfname):
-    print('[ERROR] no backup named %s' % args.name)
-    exit(2)
+    logger.fatal('no backup named %s' % args.name)
+    quit(2)
 
 if repo_exists(reponame) and not args.force:
     backup_repo(reponame)
