@@ -1,6 +1,6 @@
 .PHONY: deploy
 
 deploy:
-	./deploy.sh
+	./deploy.py
 
 
