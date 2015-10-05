@@ -192,7 +192,8 @@ def create_repo(filename):
     '''
     create a repository in directory `filename`
     '''
-    call(['git', 'init', '--bare', filename])
+    tpldir = os.path.join(os.environ.get('HOME'), 'git-template')
+    call(['git', 'init', '--bare', '--template=%s' % tpldir, filename])
     logger.info('new repository directory "%s" created' % filename)
 
 @compatible_name
@@ -201,7 +202,8 @@ def create_repo_from_uri(filename, uri):
     '''
     clone `uri` to repository directory `filename`
     '''
-    call(['git', 'clone', '--bare', uri, filename])
+    tpldir = os.path.join(os.environ.get('HOME'), 'git-template')
+    call(['git', 'clone', '--bare', '--template=%s' % tpldir, uri, filename])
     logger.info('cloned "%s" to repository directory "%s"' % (uri, filename))
 
 @compatible_name
@@ -292,7 +294,7 @@ def set_repo_private(filename, state):
     '''
     set whether the repository directory `filename` is private
     '''
-    if state:
+    if not state:
         call(['touch', '%s/git-daemon-export-ok' % filename])
     else:
         call(['rm', '-rf', '%s/git-daemon-export-ok' % filename])
@@ -302,5 +304,5 @@ def repo_private(filename):
     '''
     return whether the repository directory `filename` is private
     '''
-    return os.path.exists('%s/git-daemon-export-ok' % filename)
+    return not os.path.exists('%s/git-daemon-export-ok' % filename)
 

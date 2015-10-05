@@ -30,5 +30,5 @@ else:
 set_repo_description(args.name, args.description)
 set_repo_owner(args.name, args.owner)
 
-if args.private:
-    set_repo_private(args.name, True)
+if not args.private:
+    set_repo_private(args.name, False)
