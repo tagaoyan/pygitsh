@@ -1,0 +1,15 @@
+#!/bin/sh
+
+repo="$PWD"
+workdir="$(mktemp -d -t deploy-XXXXX)"
+
+git --work-tree="$workdir" checkout -f master
+echo "starting deployment..."
+cd "$workdir"
+make deploy
+rc="$?"
+if [[ "$rc" -eq 0 ]]; then
+    echo "succeed"
+else
+    echo "returns $rc"
+fi
