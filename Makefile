@@ -2,5 +2,3 @@
 
 deploy:
 	./deploy.py
-
-
