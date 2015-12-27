@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser(
 
 
 parser.add_argument('-d', '--description', help='set description of the repository', default='my awesome repository')
+parser.add_argument('-k', '--key', help='set deployment key (will not display)', default=None)
 parser.add_argument('-o', '--owner', help='set owner of the repository', default='git')
 parser.add_argument('-P', '--private', action='store_true', help='make this repository private, i.e. do not show at gitweb access')
 parser.add_argument('-U', '--uri', help='clone from URI instead of initialize an empty repository')
@@ -29,6 +30,9 @@ else:
     create_repo_from_uri(args.name, args.uri)
 set_repo_description(args.name, args.description)
 set_repo_owner(args.name, args.owner)
+
+if args.key:
+    set_repo_key(args.name, args.key)
 
 if not args.private:
     set_repo_private(args.name, False)

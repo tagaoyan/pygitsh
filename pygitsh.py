@@ -273,6 +273,21 @@ def repo_description(filename):
 
 @compatible_name
 @exit_handler()
+def set_repo_key(filename, key):
+    '''
+    set the deploy key of repository directory `fileneme` to `key`
+    '''
+    if key is not None:
+        call(['git', '--git-dir=%s' % filename, 'config', 'deploy.key', key])
+        call(['git', '--git-dir=%s' % filename, 'config', 'deploy.name', filename])
+        call(['git', '--git-dir=%s' % filename, 'config', 'deploy.use', 'true'])
+        logger.info('repository directory "%s": key="%s"' % (filename, key))
+    else:
+        call(['git', '--git-dir=%s' % filename, 'config', 'deploy.use', 'false'])
+        logger.info('repository directory "%s": key disabled' % filename)
+
+@compatible_name
+@exit_handler()
 def set_repo_owner(filename, owner):
     '''
     set the owner of repository directory `fileneme` to `owner`

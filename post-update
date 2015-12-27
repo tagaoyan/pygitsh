@@ -1,18 +1,8 @@
 #!/bin/sh
 
-repo="$PWD"
-workdir="$(mktemp -d -t deploy-XXXXX)"
-
-git --work-tree="$workdir" checkout -f master
-echo "starting deployment..."
-echo "work at $workdir"
-pushd "$workdir"
-make deploy
-rc="$?"
-if test "$rc" -eq 0; then
-    echo "succeed"
+if which fifoclient.py &> /dev/null; then
+    echo "call deploy hook"
+    timeout 10 fifoclient.py "$(git config deploy.name)" "$(git config deploy.key)" &
 else
-    echo "returns $rc"
+    echo "no work needed"
 fi
-popd
-rm -rf "$workdir"
