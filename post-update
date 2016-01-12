@@ -9,7 +9,7 @@ HOOK_URL="http://localhost:7500/hooks"
 if [ "$enabled" = 'true' ]; then
     echo "calling deploy hook."
     echo "we do not guarantee this build to succeed."
-    curl -d "key=$key" "${HOOK_URL}/$name"
+    curl -s -d "key=$key" "${HOOK_URL}/$name"
 else
     echo "no deploy needed."
 fi
